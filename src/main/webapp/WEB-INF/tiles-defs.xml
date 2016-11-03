@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC  
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"  
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>  
+    <!--<definition name="home" template="/WEB-INF/jsp/home.jsp">  
+        <put-attribute name="header" value="/WEB-INF/jsp/header.jsp" />
+        <put-attribute name="navQuiz" value="/WEB-INF/jsp/nav.jsp" />
+        <put-attribute name="hero" value="/WEB-INF/jsp/hero.jsp" />
+        <put-attribute name="quizContent" value="/WEB-INF/jsp/content.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />  
+        <put-attribute name="body" value="" />
+    </definition>
+    <definition name="error" template="/WEB-INF/jsp/error.jsp">  
+        <put-attribute name="title" value="This is Agri Quiz Error Page" />  
+        <put-attribute name="body" value="" />
+    </definition>-->
+    
+    <definition name="home" template="/jsp/home.jsp">  
+        <put-attribute name="header" value="/jsp/header.jsp" />
+        <put-attribute name="navQuiz" value="/jsp/nav.jsp" />
+        <put-attribute name="hero" value="/jsp/hero.jsp" />
+        <put-attribute name="quizContent" value="/jsp/content.jsp" />
+        <put-attribute name="footer" value="/jsp/footer.jsp" />  
+        <put-attribute name="body" value="" />
+    </definition>
+    <definition name="admin" template="/jsp/admin/admin.jsp">  
+        <put-attribute name="adminHeader" value="/jsp//admin/admin_header.jsp" />
+        <put-attribute name="navQuiz" value="/jsp/nav.jsp" />
+        <put-attribute name="hero" value="/jsp/hero.jsp" />
+        <put-attribute name="quizContent" value="/jsp/content.jsp" />
+        <put-attribute name="footer" value="/jsp/footer.jsp" />  
+        <put-attribute name="body" value="" />
+    </definition>
+    
+    <definition name="error" template="/jsp/error.jsp">  
+        <put-attribute name="title" value="This is Agri Quiz Error Page" />
+        <put-attribute name="header" value="/jsp/header_reg.jsp" />
+        <put-attribute name="navQuiz" value="/jsp/nav.jsp" />
+        <put-attribute name="footer" value="/jsp/footer.jsp" />  
+        <put-attribute name="body" value="" />
+    </definition>
+    
+    <definition name="register" template="/jsp/register.jsp">  
+        <put-attribute name="header" value="/jsp/header_reg.jsp" />
+        <put-attribute name="navQuiz" value="/jsp/nav.jsp" />
+        <put-attribute name="footer" value="/jsp/footer.jsp" />
+        <put-attribute name="body" value="" />
+    </definition>
+    <definition name="adminregister" template="/jsp/admin/admin_register.jsp">  
+        <put-attribute name="header" value="/jsp/admin/header_admin_reg.jsp" />
+        <put-attribute name="navQuiz" value="/jsp/nav.jsp" />
+        <put-attribute name="footer" value="/jsp/footer.jsp" />
+        <put-attribute name="body" value="" />
+    </definition>
+    
+    <definition name="successreg" template="/jsp/sucess_registration.jsp">  
+        <put-attribute name="title" value="This is Agri Quiz Registration Page" />  
+        <put-attribute name="body" value="" />
+    </definition>
+    
+    <definition name="quizPage" template="/jsp/quiz_page.jsp">  
+        <put-attribute name="navQuiz" value="/jsp/nav.jsp" />
+        <put-attribute name="footer" value="/jsp/footer.jsp" />  
+        <put-attribute name="body" value="" />
+    </definition>
+    
+    <definition name="adminPage" template="/jsp/admin/admin_page.jsp">  
+        <put-attribute name="title" value="Agri Quiz Admin Page" /> 
+        <put-attribute name="navQuiz" value="/jsp/nav.jsp" />
+        <put-attribute name="footer" value="/jsp/footer.jsp" /> 
+        <put-attribute name="body" value="" />
+    </definition>
+    <definition name="question" template="/jsp/question_page.jsp">  
+        <put-attribute name="title" value="Agri Quiz Qustion Page" />
+         <put-attribute name="navQuiz" value="/jsp/nav.jsp" />
+       <!--  <put-attribute name="hero" value="/jsp/hero.jsp" /> -->
+        <put-attribute name="quizContent" value="/jsp/content.jsp" />
+        <put-attribute name="footer" value="/jsp/footer.jsp" /> 
+        <put-attribute name="body" value="" />
+    </definition>
+    
+    <definition name="adminquestion" template="/jsp/admin/admin_question_page.jsp">  
+        <put-attribute name="title" value="Agri Quiz Qustion Page" />
+        <put-attribute name="navQuiz" value="/jsp/nav.jsp" />
+        <put-attribute name="footer" value="/jsp/footer.jsp" />  
+        <put-attribute name="body" value="" />
+    </definition>
+    <definition name="executeQueryPage" template="/jsp/createQuery.jsp">  
+        <put-attribute name="title" value="" />  
+        <put-attribute name="body" value="" />
+    </definition>
+    
+    <definition name="executeQuerySucc" template="/jsp/sucess_Tablecreation.jsp">  
+        <put-attribute name="title" value="" />  
+        <put-attribute name="body" value="" />
+    </definition>
+    
+    <definition name="result" template="/jsp/result.jsp">  
+        <put-attribute name="title" value="Agri Quiz Result Page" />
+        <put-attribute name="navQuiz" value="/jsp/nav.jsp" />
+        <put-attribute name="footer" value="/jsp/footer.jsp" />  
+        <put-attribute name="body" value="" />
+    </definition>
+    
+    <definition name="adminresult" template="/jsp/admin/admin_result.jsp">  
+        <put-attribute name="title" value="Agri Quiz Result Page" />
+        <put-attribute name="navQuiz" value="/jsp/nav.jsp" />
+        <put-attribute name="footer" value="/jsp/footer.jsp" />  
+        <put-attribute name="body" value="" />
+    </definition>
+    
+    <definition name="movie" template="/jsp/movie.jsp">  
+        <put-attribute name="title" value="This is Movie Page" />  
+        <put-attribute name="body" value="/WEB-INF/jsp/movie.jsp" />
+    </definition>   
+  </tiles-definitions> 

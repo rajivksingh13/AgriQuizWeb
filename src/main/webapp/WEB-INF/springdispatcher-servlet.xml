@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd     
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd    
+		 http://www.springframework.org/schema/mvc 
+		 http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		 http://www.springframework.org/schema/tx
+		 http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		 http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+	<context:annotation-config />
+	 <cache:annotation-driven cache-manager="cacheManager" />
+	<!--
+		Scans the classpath of this application for @Components to deploy as
+		beans
+	-->
+
+	<context:component-scan base-package="com.rajiv.agri.quiz" />
+	<!--<mvc:resources mapping="/**" location="/resources/" />-->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:annotation-driven />
+	
+	<bean id="tilesviewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass">
+			<value>org.springframework.web.servlet.view.tiles2.TilesView
+			</value>
+		</property>
+	</bean>
+	<bean id="tilesConfigurer"
+		class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/tiles-defs.xml</value>
+			</list>
+		</property>
+	</bean>
+<!--<bean id="jspViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>-->
+	<!-- Configure JDBC Connection-->
+	<!--<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver" />
+		<property name="url" value="jdbc:derby:C:/Users/172661/MyDB;create=true" />
+		<property name="username" value="user" />
+		<property name="password" value="user" />
+	</bean>
+	--><!-- <bean id="MyDB_Derby" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="jdbc/MyDB_Derby" />
+	</bean>-->
+	<!-- <bean id="dataSource" 
+      class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+      <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+      <property name="url" value="jdbc:mysql://localhost:3306/onlinetest"/>
+      <property name="username" value="root"/>
+      <property name="password" value="root"/>
+   </bean> -->
+   
+   <bean id="dataSource" 
+      class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+      <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+      <property name="url" value="jdbc:mysql://mydb.cgexyv2m9zbh.us-west-2.rds.amazonaws.com:3306/MyDB"/>
+      <property name="username" value="user"/>
+      <property name="password" value="useruser"/>
+   </bean>
+	<bean id="userdao" class="com.rajiv.agri.quiz.daoImpl.UserDaoImpl"> 
+        <property name="dataSource"><ref bean="dataSource" /></property> 
+ </bean> 
+<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"
+		p:cacheManager-ref="ehcache" />
+	<bean id="ehcache"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"
+		p:configLocation="/WEB-INF/ehcache_e0.xml"
+		p:shared="true" />
+	<!-- <bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+		 setting maximum upload size
+		<property name="maxUploadSize" value="100000" />
+
+	</bean> -->
+</beans>
