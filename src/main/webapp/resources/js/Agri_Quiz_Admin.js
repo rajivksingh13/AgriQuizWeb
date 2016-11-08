@@ -41,7 +41,7 @@ $(document).ready(function () {
 	});
 	  
   //function loadQuiz(course_type){   
-	  $.getJSON("./startQuiz/"+course_type, function(data) {
+	  $.getJSON("./startQuizAdmin/"+course_type, function(data) {
 	    	console.log(data);
 	    	
 	    	quizJSONData=data;  	

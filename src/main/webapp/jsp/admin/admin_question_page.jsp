@@ -8,14 +8,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="./resources/styles/quiz.css" media="all"/>
-<script type='text/javascript' src='./resources/jsjquery-1.10.2.js'></script> 
-<script type='text/javascript' src='./resources/jsjquery-ui.js'></script>
+<script type='text/javascript' src='./resources/js/jquery-1.10.2.js'></script> 
+<script type='text/javascript' src='./resources/js/jquery-ui.js'></script>
+<script type="text/javascript" src="./resources/js/Agri_Quiz_Admin.js"></script>
 <script type="text/javascript" src="./resources/js/timer.js"></script>
 </head>
 <body>
 <div class="quiz">
-<a href="./AgriQuiz">
-<span>Welcome to Online Agri Quiz</span>
+<a href="./AgriQuizAdmin">
+<span>Welcome to Online Agri Quiz Admin</span>
 </a>
 </div>
 <div id="userID" class="welcomeUser">Welcome &nbsp;<c:out value="${UserID}"/></div>
@@ -25,7 +26,10 @@
 </form:form>
 </div>
 <div id="nav"><tiles:insertAttribute name="navQuiz" /></div>
-<div id="backgroundImg" class="backgroundImg">
+
+<div id="maincontent"><tiles:insertAttribute name="quizContent" /></div>
+<div id="footer"><tiles:insertAttribute name="footer" /></div>
+<%-- <div id="backgroundImg" class="backgroundImg">
 <!--<img src="./resources/images/background.jpg" alt="Agri View">
 -->
 <h2 id="disabled"></h2>
@@ -52,6 +56,6 @@
  </form:form>
  </div>
  </div>
- <div id="footer"><tiles:insertAttribute name="footer" /></div>
+ <div id="footer"><tiles:insertAttribute name="footer" /></div> --%>
  </body>
  </html>

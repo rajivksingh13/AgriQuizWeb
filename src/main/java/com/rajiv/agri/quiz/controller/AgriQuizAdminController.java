@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,7 +46,7 @@ public class AgriQuizAdminController {
 	UserDaoImpl userdao;
 	UserResultSetExtractor rs = new UserResultSetExtractor();
 	User myuser;
-	
+	boolean isLogedIn=false;
 	/**
 	 * 
 	 * @param req
@@ -72,10 +73,12 @@ public class AgriQuizAdminController {
 		session=request.getSession(false);
 		
 		try {
-            if(session.getAttribute("UserID")!=null){
+			if (session.getAttribute("UserID") != null && isLogedIn==true) {
+				mv.addObject("isLogedIn",isLogedIn);
             	//mv.setViewName(RestAPIConstants.ADMIN_HOME_LANDING);
-            	mv.setViewName(RestAPIConstants.ADMIN_PAGE);
-           }else {	
+            	mv.setViewName(RestAPIConstants.ADMIN_QUIZ_PAGE_VIEW);
+           }else {
+        	   mv.addObject("isLogedIn",isLogedIn);
 			//mv.setViewName(RestAPIConstants.ADMIN_PAGE);
 			mv.setViewName(RestAPIConstants.ADMIN_HOME_LANDING);
            }
@@ -97,8 +100,9 @@ public class AgriQuizAdminController {
 		ModelAndView mv = new ModelAndView();
 		session=request.getSession(false);
 		session.invalidate();
+		isLogedIn=false;
 		try {
-           
+			mv.addObject("isLogedIn",isLogedIn);
 			mv.setViewName(RestAPIConstants.ADMIN_HOME_LANDING);
          
 		} catch (Exception exception) {
@@ -150,12 +154,14 @@ public class AgriQuizAdminController {
 					session.setAttribute("UserID", userID);
 					session.setAttribute("Password", pwd);
 					session.setMaxInactiveInterval(30);
+					isLogedIn=true;
+					mv.addObject("isLogedIn",isLogedIn);
 					mv.addObject("UserID", userID);
 					// mv.addObject("UserType", userType);
 					if (userType.equalsIgnoreCase("admin")) {
-						mv.setViewName(RestAPIConstants.ADMIN_PAGE);
+						mv.setViewName(RestAPIConstants.ADMIN_QUIZ_PAGE_VIEW);
 					} else if (userType.equalsIgnoreCase("Student")) {
-						mv.setViewName(RestAPIConstants.QUIZ_PAGE);
+						mv.setViewName(RestAPIConstants.QUIZ_PAGE_VIEW);
 					}
 				} else {
 					mv.addObject("errorMsg1",
@@ -238,7 +244,7 @@ public class AgriQuizAdminController {
 		return mv;
 	}
 	
-	 @SuppressWarnings("unchecked")
+	/*@SuppressWarnings("unchecked")
 	@RequestMapping(value = RestAPIConstants.UPLOAD)
 	public ModelAndView uploadfile(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -259,11 +265,11 @@ public class AgriQuizAdminController {
 
 		return mv;
 	} 
-	
-	/*@SuppressWarnings("unchecked")
+*/	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = RestAPIConstants.UPLOAD, method = RequestMethod.POST)
 	public @ResponseBody String uploadfile(HttpServletRequest request,
-			HttpServletResponse response,@RequestParam("file") MultipartFile file) throws Exception {
+			HttpServletResponse response,@RequestParam("name") String fileName,@RequestParam("file") MultipartFile file) throws Exception {
 
 		final String strMethodName = RestAPIConstants.LOAD_SUCS_REG;
 		
@@ -271,41 +277,37 @@ public class AgriQuizAdminController {
 
 		try {
 
-			String path = request.getParameter("fileupload");
-			System.out.println("path ::"+path);
+			
+			String path="";
+			
 			// Starts
 			if (!file.isEmpty()) {
-				
-					byte[] bytes = file.getBytes();
+				byte[] bytes = file.getBytes();
+				String rootPath = System.getProperty("catalina.home");
+				File dir = new File(rootPath + File.separator + "tmpFiles");
+				if (!dir.exists())
+					dir.mkdirs();
+				// Create the file on server
+				File serverFile = new File(dir.getAbsolutePath()
+						+ File.separator + fileName);
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(serverFile));
+				stream.write(bytes);
+				stream.close();
 
-					// Creating the directory to store file
-					String rootPath = System.getProperty("catalina.home");
-										
-					File dir = new File(rootPath + File.separator + "tmpFiles");
-					if (!dir.exists())
-						dir.mkdirs();
-
-					// Create the file on server
-					File serverFile = new File(dir.getAbsolutePath()
-							+ File.separator + path);
-					BufferedOutputStream stream = new BufferedOutputStream(
-							new FileOutputStream(serverFile));
-					stream.write(bytes);
-					stream.close();
-			
-			//Ends
-			System.out.println("Server File Location="
-					+ serverFile.getAbsolutePath());
+				System.out.println("Server File Location="
+						+ serverFile.getAbsolutePath());
+				path=serverFile.getAbsolutePath();	
 			}
-			//userdao.uploadQuestion(path);
-			mv.setViewName(RestAPIConstants.QUIZ_REG_SUCCESS);
+			userdao.uploadQuestion(path);
+			
 		} catch (Exception exception) {
 			exception.printStackTrace();
 			mv.setViewName(RestAPIConstants.QUIZ_HOME_ERROR);
 		}
 
 		return null;
-	}*/
+	}
 	/*@RequestMapping(value = RestAPIConstants.ADMIN_START_QUIZ)
 	public ModelAndView adminLoadQuiz(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -331,15 +333,17 @@ public class AgriQuizAdminController {
 		@SuppressWarnings("unchecked")
 		@RequestMapping(value = RestAPIConstants.ADMIN_START_QUIZ)
 		public @ResponseBody List<Question> adminLoadQuiz(HttpServletRequest request,
-				HttpServletResponse response) throws Exception {
+				HttpServletResponse response,@PathVariable String course_type) throws Exception {
 
 			final String strMethodName = RestAPIConstants.ADMIN_LOAD_QUIZ;
 			ModelAndView mv = new ModelAndView();
 			
 			try {
-				String sqlQuery = "Select * from QUESTION_TABLE";
-				List<Question> list=userdao.createSql(sqlQuery);
-				return list;
+				mv.addObject("course_type",course_type);
+				mv.setViewName(RestAPIConstants.ADMIN_PAGE);
+				//String sqlQuery = "Select * from QUESTION_TABLE";
+				//List<Question> list=userdao.createSql(sqlQuery);
+				//return list;
 			} catch (Exception exception) {
 				exception.printStackTrace();
 				mv.setViewName(RestAPIConstants.QUIZ_HOME_ERROR);
@@ -347,6 +351,33 @@ public class AgriQuizAdminController {
 	            System.out.println("The Question Respose is in JSON:");
 	        }
 			return (List<Question>) mv;
+			
+		}
+		
+		@SuppressWarnings("unchecked")
+		@RequestMapping(value = RestAPIConstants.START_QUIZ_ADMIN,method = RequestMethod.GET)
+		public @ResponseBody List<Question> startQuiz(HttpServletRequest request,
+				HttpServletResponse response,@PathVariable 
+	            String course_type) throws Exception {
+
+			final String strMethodName = RestAPIConstants.LOAD_QUIZ_REG;
+			
+			try {
+				System.out.println("Course Type Is:"+course_type);
+				String sqlQuery = "Select * from QUESTION_TABLE where COURSE_TYPE="+"'"+course_type+"'";
+				List<Question> list=userdao.createSql(sqlQuery);
+				
+				//mv.addObject("list", list);
+				//mv.setViewName(RestAPIConstants.QUIZ_PAGE_VIEW);
+				System.out.println("The Question Respose is in JSON:"+list.toString());
+				return list;
+			} catch (Exception exception) {
+				exception.printStackTrace();
+				//mv.setViewName(RestAPIConstants.QUIZ_HOME_ERROR);
+			}finally {
+	            System.out.println("The Question Respose is in JSON:");
+	        }
+			return null;
 			
 		}
 		// Through Response Body to get JSON as a Response Ends

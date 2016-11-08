@@ -74,5 +74,6 @@ public class RestAPIConstants {
 	public static final String USER_QUIZ_LOGOUT="userQuizLogout";
 	
 	public static final String QUIZ_START="{course_type}";
+	public static final String START_QUIZ_ADMIN="startQuizAdmin/{course_type}";
 	public static final String LOAD_QUIZ_START="loadQuizStart";
 }

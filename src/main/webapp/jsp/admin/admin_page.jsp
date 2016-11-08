@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="./resources/styles/quiz.css" media="all"/>
 <script type='text/javascript' src='./resources/js/jquery-1.10.2.js'></script> 
 <script type='text/javascript' src='./resources/js/jquery-ui.js'></script>
-<script type="text/javascript" src="./resources/js/Agri_Quiz.js"></script>
+<script type="text/javascript" src="./resources/js/Agri_Quiz_Admin.js"></script>
 </head>
 <body>
 <div class="quiz">
@@ -43,8 +43,10 @@
 <!--</form:form>
 --></div>
 <div id="uploadfile" class="uploadfileShow"> Upload Agri Question Here:<br/><br/>
-<form:form action="upload" method="post">
-<input type="file" name="file"><input type="submit" value="Upload Questions">
+<form:form action="upload" method="post" enctype="multipart/form-data">
+<input type="file" name="file">
+Quiz File Name: <input type="text" name="name">
+<input type="submit" value="Upload Questions">
 </form:form>
 </div>
 <div id="executeQuery" class="executeQueryShow"> Execute Sql Query Here :
